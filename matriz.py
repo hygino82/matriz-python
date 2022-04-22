@@ -5,6 +5,17 @@ def linha():
     print(40*'-')
 
 
+def matrizNula(linhas: int, colunas: int):
+    matriz = []
+    for i in range(linhas):
+        linha = []
+        for j in range(colunas):
+            linha.append(0)
+        matriz.append(linha)
+
+    return matrizNula
+
+
 def copiaMatriz(mat):
     matriz = []
     for i in range(len(mat)):
@@ -162,11 +173,12 @@ def escalonamento(m):
     return matriz
 
 
-def determinante(matriz):
+def determinante(mat):
+    matriz_escalonada = escalonamento(mat)
     det = 1  # elemento neutro em um produto
     if(verificaMatrizQuadrada):
-        for i in range(len(matriz)):
-            det = det * matriz[i][i]
+        for i in range(len(matriz_escalonada)):
+            det = det * matriz_escalonada[i][i]
         return det
     else:
         return
@@ -201,6 +213,52 @@ def matrizReduzida(mat, lx: int, cx: int):
     return reduzida
 
 
-print('Matriz reduzida [1,1]')
-mr11 = matrizReduzida(t, 0, 0)
-imprime(mr11)
+def matrizCofatores(matriz):
+    cofatores = []
+    for i in range(len(matriz)):
+        linha = []
+        for j in range(len(matriz)):
+            mr = matrizReduzida(matriz, i, j)
+            escalonamento(mr)
+            det = determinante(mr)
+            if((i+j) % 2 == 0):
+                linha.append(det)
+            else:
+                linha.append(-det)
+        cofatores.append(linha)
+
+    return cofatores
+
+
+def matrizAdjunta(matriz):
+    adjunta = []
+    cofatores = matrizCofatores(matriz)
+    for j in range(len(matriz[0])):
+        linha = []
+        for i in range(len(matriz)):
+            linha.append(cofatores[i][j])
+        adjunta.append(linha)
+
+    return adjunta
+
+
+def matrizInversa(matriz):
+    m = copiaMatriz(matriz)
+    escalonamento(m)
+    det = determinante(m)
+    if (det == 0):
+        return
+    else:
+        return matrizEscalar((1.0 / det), matrizAdjunta(matriz))
+
+
+k = [[1, 2],
+     [3, 4]]
+
+linha()
+print('Matriz K')
+imprime(k)
+print(f'Determinante = {determinante(k)}')
+print('Inversa de K')
+inv_k = matrizInversa(k)
+imprime(inv_k)
