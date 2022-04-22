@@ -1,6 +1,3 @@
-from operator import truediv
-
-
 def linha():
     print(40*'-')
 
@@ -183,24 +180,6 @@ def determinante(mat):
     else:
         return
 
-
-t = [[1, 2, 3],
-     [4, 5, 6],
-     [7, 8, 2]]
-
-print('\nMatriz T')
-imprime(t)
-linha()
-if (verificaMatrizQuadrada):
-    w = escalonamento(t)
-    print('\nMatriz escalonada')
-    imprime(w)
-else:
-    print('Erro ao realizar o procedimento')
-linha()
-print(f'Det = {determinante(w)}')
-
-
 def matrizReduzida(mat, lx: int, cx: int):
     reduzida = []
     for i in range(len(mat)):
@@ -250,15 +229,3 @@ def matrizInversa(matriz):
         return
     else:
         return matrizEscalar((1.0 / det), matrizAdjunta(matriz))
-
-
-k = [[1, 2],
-     [3, 4]]
-
-linha()
-print('Matriz K')
-imprime(k)
-print(f'Determinante = {determinante(k)}')
-print('Inversa de K')
-inv_k = matrizInversa(k)
-imprime(inv_k)
