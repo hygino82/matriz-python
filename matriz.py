@@ -80,14 +80,14 @@ def entradaMatriz():
 def imprime(matriz):
     for i in range(len(matriz)):
         for j in range(len(matriz[0])):
-            print(f'{matriz[i][j]:4}', ' ', end='')
+            print(matriz[i][j], ' ', end='')
         print()
 
 
 def imprimeTransposta(matriz):
     for j in range(len(matriz[0])):
         for i in range(len(matriz)):
-            print(f'{matriz[i][j]:4}', ' ', end='')
+            print(matriz[i][j], ' ', end='')
         print()
 
 
@@ -142,11 +142,6 @@ def matrizProduto(ma, mb):
     return matriz
 
 
-t = [[1, 2, 3],
-     [4, 5, 6],
-     [7, 8, 2]]
-
-
 def escalonamento(m):
     t = copiaMatriz(m)
     linhas = len(t)
@@ -177,6 +172,10 @@ def determinante(matriz):
         return
 
 
+t = [[1, 2, 3],
+     [4, 5, 6],
+     [7, 8, 2]]
+
 print('\nMatriz T')
 imprime(t)
 linha()
@@ -188,3 +187,20 @@ else:
     print('Erro ao realizar o procedimento')
 linha()
 print(f'Det = {determinante(w)}')
+
+
+def matrizReduzida(mat, lx: int, cx: int):
+    reduzida = []
+    for i in range(len(mat)):
+        linha = []
+        if (i != lx):
+            for j in range(len(mat[0])):
+                if (j != cx):
+                    linha.append(mat[i][j])
+            reduzida.append(linha)
+    return reduzida
+
+
+print('Matriz reduzida [1,1]')
+mr11 = matrizReduzida(t, 0, 0)
+imprime(mr11)
