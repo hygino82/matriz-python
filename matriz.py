@@ -1,3 +1,21 @@
+from operator import truediv
+
+
+def linha():
+    print(40*'-')
+
+
+def verificaPossibilidadeproduto(ma, mb):
+    la = len(ma)  # indica a quantidade de linhas de A
+    ca = len(ma[0])  # indica a quantidade de colunas de A
+    lb = len(mb)  # indica a quantidade de linhas de B
+    cb = len(mb[0])  # indica a quantidade de colunas de B
+    if(la != lb and ca != cb):
+        return True
+    else:
+        return False
+
+
 def abrirMatriz(arq: str):
     arquivo = open(arq, "r")
     matriz = []
@@ -56,8 +74,8 @@ def matrizEscalar(valor: float, mat):
 def matrizSoma(ma, mb):
     la = len(ma)  # indica a quantidade de linhas de A
     ca = len(ma[0])  # indica a quantidade de colunas de A
-    lb = len(ma)  # indica a quantidade de linhas de B
-    cb = len(ma[0])  # indica a quantidade de colunas de B
+    lb = len(mb)  # indica a quantidade de linhas de B
+    cb = len(mb[0])  # indica a quantidade de colunas de B
     if(la != lb and ca != cb):
         print('Não é possivel somar as matrizes,\npois suas dimensões são incompatíveis.')
         return
@@ -73,23 +91,56 @@ def matrizSoma(ma, mb):
         return matriz
 
 
-a = [[2, 3, 4],
-     [5, 6, 7]]
+def matrizProduto(ma, mb):
+    la = len(ma)  # indica a quantidade de linhas de A
+    ca = len(ma[0])  # indica a quantidade de colunas de A
+    lb = len(mb)  # indica a quantidade de linhas de B
+    cb = len(mb[0])  # indica a quantidade de colunas de B
+    if(ca != lb):
+        print('Não é possivel somar as matrizes,\npois suas dimensões são incompatíveis.')
+        return
+    else:
+        matriz = []
+        for i in range(la):
+            linha = []
+            for j in range(cb):
+                elemento = 0
+                for k in range(ca):
+                    elemento += ma[i][k] * mb[k][j]
+                linha.append(elemento)
+            matriz.append(linha)
+    return matriz
 
-b = [[-1, 3.5, 9],
-     [8, 2, 3]]
+# a = [[2, 3, 4],
+#      [5, 6, 7]]
 
-print('Matriz A')
-imprime(a)
-print('Matriz B')
-imprime(b)
-c = matrizSoma(a, b)
-print('Matriz soma')
-imprime(c)
+# b = [[-1, 3.5, 9],
+#      [8, 2, 3]]
+
+# print('Matriz A')
+# imprime(a)
 # print('Matriz B')
 # imprime(b)
+# c = matrizSoma(a, b)
+# print('Matriz soma')
+# imprime(c)
 
-# matrizSoma(a, b)  # Não implementado completamente ainda
-# t = [[1, 2, 3],
-#      [4, 5, 6],
-#      [7, 8, 2]]
+
+d = [[5, 2],
+     [3, 7]]
+
+e = [[9, 5],
+     [1, 3]]
+
+print('Matriz D')
+imprime(d)
+linha()
+print('Matriz E')
+imprime(e)
+linha()
+if (verificaPossibilidadeproduto(d, e)):
+    print('Matriz do produto CxD')
+    prod_cd = matrizProduto(d, e)
+    imprime(prod_cd)
+else:
+    print('Não é possivel somar as matrizes,\npois suas dimensões são incompatíveis.')
