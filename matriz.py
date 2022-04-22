@@ -5,12 +5,42 @@ def linha():
     print(40*'-')
 
 
-def verificaPossibilidadeproduto(ma, mb):
+def copiaMatriz(mat):
+    matriz = []
+    for i in range(len(mat)):
+        linha = []
+        for j in range(len(mat[0])):
+            linha.append(mat[i][j])
+        matriz.append(linha)
+    return matriz
+
+
+def verificaPossibilidadeProduto(ma, mb):
     la = len(ma)  # indica a quantidade de linhas de A
     ca = len(ma[0])  # indica a quantidade de colunas de A
     lb = len(mb)  # indica a quantidade de linhas de B
     cb = len(mb[0])  # indica a quantidade de colunas de B
     if(la != lb and ca != cb):
+        return True
+    else:
+        return False
+
+
+def verificaPossibilidadeSoma(ma, mb):
+    la = len(ma)  # indica a quantidade de linhas de A
+    ca = len(ma[0])  # indica a quantidade de colunas de A
+    lb = len(mb)  # indica a quantidade de linhas de B
+    cb = len(mb[0])  # indica a quantidade de colunas de B
+    if(la != lb and ca != cb):
+        return True
+    else:
+        return False
+
+
+def verificaMatrizQuadrada(ma):
+    la = len(ma)
+    ca = len(ma[0])
+    if (la == ca):
         return True
     else:
         return False
@@ -50,14 +80,14 @@ def entradaMatriz():
 def imprime(matriz):
     for i in range(len(matriz)):
         for j in range(len(matriz[0])):
-            print(matriz[i][j], ' ', end='')
+            print(f'{matriz[i][j]:4}', ' ', end='')
         print()
 
 
 def imprimeTransposta(matriz):
     for j in range(len(matriz[0])):
         for i in range(len(matriz)):
-            print(matriz[i][j], ' ', end='')
+            print(f'{matriz[i][j]:4}', ' ', end='')
         print()
 
 
@@ -85,7 +115,7 @@ def matrizSoma(ma, mb):
         for i in range(la):
             linha = []
             for j in range(cb):
-                elemento = ma[i][j]+mb[i][j]
+                elemento = ma[i][j] + mb[i][j]
                 linha.append(elemento)
             matriz.append(linha)
         return matriz
@@ -111,36 +141,50 @@ def matrizProduto(ma, mb):
             matriz.append(linha)
     return matriz
 
-# a = [[2, 3, 4],
-#      [5, 6, 7]]
 
-# b = [[-1, 3.5, 9],
-#      [8, 2, 3]]
-
-# print('Matriz A')
-# imprime(a)
-# print('Matriz B')
-# imprime(b)
-# c = matrizSoma(a, b)
-# print('Matriz soma')
-# imprime(c)
+t = [[1, 2, 3],
+     [4, 5, 6],
+     [7, 8, 2]]
 
 
-d = [[5, 2],
-     [3, 7]]
+def escalonamento(m):
+    t = copiaMatriz(m)
+    linhas = len(t)
+    colunas = len(t[0])
+    for p in range(linhas):
+        if(t[p][p] == 0):
+            for x in range(p+1, linhas, 1):
+                for y in range(colunas):
+                    t[p][y] += t[x][y]
+        # não usei else pois dando certo ou não deverá ser executado a segunda condição
+        if (t[p][p] != 0):
+            for x in range(p+1, linhas, 1):
+                cte = t[x][p] / t[p][p]
 
-e = [[9, 5],
-     [1, 3]]
+                for y in range(colunas):
+                    t[x][y] = t[x][y] - cte * t[p][y]
+    matriz = t[:]
+    return matriz
 
-print('Matriz D')
-imprime(d)
+
+def determinante(matriz):
+    det = 1  # elemento neutro em um produto
+    if(verificaMatrizQuadrada):
+        for i in range(len(matriz)):
+            det = det * matriz[i][i]
+        return det
+    else:
+        return
+
+
+print('\nMatriz T')
+imprime(t)
 linha()
-print('Matriz E')
-imprime(e)
-linha()
-if (verificaPossibilidadeproduto(d, e)):
-    print('Matriz do produto CxD')
-    prod_cd = matrizProduto(d, e)
-    imprime(prod_cd)
+if (verificaMatrizQuadrada):
+    w = escalonamento(t)
+    print('\nMatriz escalonada')
+    imprime(w)
 else:
-    print('Não é possivel somar as matrizes,\npois suas dimensões são incompatíveis.')
+    print('Erro ao realizar o procedimento')
+linha()
+print(f'Det = {determinante(w)}')
